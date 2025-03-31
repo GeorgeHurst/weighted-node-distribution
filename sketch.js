@@ -2,9 +2,16 @@ let boundaryCoordinates;
 let nodeCoordinates;
 let radius;
 
-let nodes = [3, 1, 2, 5, 8, 4, 8];
+// let nodes = [3, 1, 2, 5, 8, 4, 8];
+let nodes = [
+  [3, 1],
+  [1, 0],
+  [5, 8],
+  [1, 1],
+  [3, 2],
+];
 
-let boundaries = true;
+let boundaries = false;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -14,7 +21,9 @@ function setup() {
 
   let button = createButton("Toggle Boundaries");
   button.position(10, height - 30);
-  button.mousePressed(toggleBoundaries);
+  button.mousePressed(() => {
+    boundaries = !boundaries;
+  });
 }
 
 function draw() {
@@ -25,6 +34,7 @@ function draw() {
     stroke("red");
     strokeWeight(5);
     ellipse(width / 2, height / 2, 600);
+    ellipse(width / 2, height / 2, 800);
     pop();
   }
   push();
@@ -47,14 +57,24 @@ function draw() {
       fill(255);
       textAlign(LEFT);
       if (nodes[index] != undefined) {
-        text(`${index}:   ${nodes[index]}`, width - 150, 100 + index * 50);
+        text(
+          `${index}:   ${nodes[index]} nodes`,
+          width - 150,
+          100 + index * 50
+        );
       }
       pop();
     } else {
-      push()
+      push();
       stroke(180);
-      strokeWeight(3)
-      line(width / 2, height / 2, node[0], node[1])
+      strokeWeight(3);
+      line(width / 2, height / 2, node[0], node[1]);
+      pop();
+      push();
+      noFill();
+      strokeWeight(3);
+      stroke(180, 10);
+      ellipse(width / 2, height / 2, 600);
       pop();
     }
     ellipse(node[0], node[1], 40);
@@ -62,8 +82,4 @@ function draw() {
     textAlign(CENTER);
     text(index, node[0], node[1] + 5);
   });
-}
-
-function toggleBoundaries() {
-  boundaries = !boundaries;
 }

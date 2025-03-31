@@ -19,8 +19,8 @@ function orderNodes(nodeArray) {
     angleList.push(angle);
 
     currentBoundPair.push(
-      center.x + cos(angle) * (orbitRadius + 50),
-      center.y + sin(angle) * (orbitRadius + 50)
+      center.x + cos(angle) * (orbitRadius + 150),
+      center.y + sin(angle) * (orbitRadius + 150)
     );
 
     boundaryPositions.push(currentBoundPair);
@@ -38,16 +38,26 @@ function orderNodes(nodeArray) {
 
     nodePositions.push(currentNodePair);
   }
+
   return [nodePositions, boundaryPositions];
 }
 
 function calculateRatios(nodeArray) {
-  let totalWeight = nodeArray.reduce((a, b) => a + b, 0); // Sum of all weights
+  // let totalWeight = nodeArray.reduce((a, b) => a + b, 0); // Sum of all weights
+  let totalWeight = nodeArray.reduce(
+    (a, b) => a + b.reduce((x, y) => x + y, 0),
+    0
+  );
+  let oneDimensionalArray = nodeArray.map((subArray) =>
+    subArray.reduce((a, b) => a + b, 0)
+  );
   let ratios = [];
 
-  for (let n = 0; n < nodeArray.length; n++) {
-    ratios.push(nodeArray[n] / totalWeight);
+  for (let n = 0; n < oneDimensionalArray.length; n++) {
+    ratios.push(oneDimensionalArray[n] / totalWeight);
+    console.log(oneDimensionalArray[n] / totalWeight);
   }
 
+  console.log(ratios);
   return ratios;
 }
